@@ -1,7 +1,7 @@
 {
   "name": "World Clock",
   "short_name": "World Clock",
-  "description": "World Clock with automatic location, local time and live weather",
+  "description": "Automatic local time, location and live weather worldwide",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
