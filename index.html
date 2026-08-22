@@ -797,6 +797,101 @@
 </style>
 
 
+<style id="v32-location-wrap">
+/* V32:
+   - Main place name stays one line.
+   - Secondary region/country line may wrap to a maximum of two lines.
+   - The location block remains constrained so it cannot run into the large clock.
+*/
+.city-block{
+  width:40% !important;
+  max-width:40% !important;
+  overflow:hidden !important;
+}
+
+#locationMain{
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+#locationSub{
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+  word-break:normal !important;
+  overflow:hidden !important;
+  text-overflow:clip !important;
+  display:-webkit-box !important;
+  -webkit-box-orient:vertical !important;
+  -webkit-line-clamp:2 !important;
+  line-clamp:2 !important;
+  max-height:2.2em !important;
+  line-height:1.08 !important;
+  margin-top:8px !important;
+  color:#b8bec7 !important;
+  opacity:1 !important;
+}
+
+@media (orientation:portrait) and (max-width:900px){
+  .city-block{
+    width:42% !important;
+    max-width:42% !important;
+  }
+
+  #locationSub{
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+    display:-webkit-box !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:2 !important;
+    line-clamp:2 !important;
+    max-height:2.2em !important;
+    line-height:1.08 !important;
+    margin-top:12px !important;
+  }
+}
+</style>
+
+
+
+<style id="v34-feels-size">
+/* V34: gray feels-like temperature enlarged as requested */
+#feels{
+  font-size:43px !important;
+  font-weight:600 !important;
+  color:#aeb3ba !important;
+}
+@media (orientation:portrait) and (max-width:900px){
+  #feels{
+    font-size:55px !important;
+  }
+}
+</style>
+
+
+<style id="v35-nth-number">
+/* V35: enlarge only the yellow numeral (1/2/3/4/5), not weekday or suffix */
+#nth .nth-number{
+  font-size:1.45em !important;
+  line-height:.8 !important;
+  vertical-align:-.08em;
+}
+#nth .nth-prefix,
+#nth .nth-suffix{
+  font-size:1em !important;
+}
+</style>
+
+
+<style id="v36-wind-unit">
+/* V36: make only the km/h abbreviation about 24% larger */
+.wind-unit{
+  font-size:.72em !important;
+  font-weight:700 !important;
+}
+</style>
+
+
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -953,7 +1048,22 @@ function updateClock(){
   document.getElementById("month").textContent = monthText(m);
   document.getElementById("day").textContent = d;
   document.getElementById("weekday").textContent = weekdayText(y,m,d);
-  document.getElementById("nth").textContent = nthText(d);
+  
+  {
+    const nthEl = document.getElementById("nth");
+    const nthValue = nthText(d);
+    // Split first numeric sequence from prefix/suffix:
+    // 第2 -> 第 + 2 ; 3. -> 3 + . ; 4th -> 4 + th
+    const match = String(nthValue).match(/^(.*?)(\d+)(.*)$/);
+    if(match){
+      nthEl.innerHTML =
+        '<span class="nth-prefix">' + match[1] + '</span>' +
+        '<span class="nth-number">' + match[2] + '</span>' +
+        '<span class="nth-suffix">' + match[3] + '</span>';
+    }else{
+      nthEl.textContent = nthValue;
+    }
+  }
 
   const units=document.querySelectorAll(".big-date .unit");
   if(units.length>=2){

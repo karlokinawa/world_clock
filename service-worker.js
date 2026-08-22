@@ -1,4 +1,4 @@
-const CACHE = 'world-clock-v31-pwa-v7';
+const CACHE = 'world-clock-v36-pwa-v8';
 
 const APP_SHELL = [
   './',
@@ -28,7 +28,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Always fetch live location/weather data from the network.
+  // Live location and weather data must always come from the network.
   if (
     url.hostname.includes('open-meteo.com') ||
     url.hostname.includes('bigdatacloud.net')
@@ -37,7 +37,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Network-first for page navigation / index.html so updates appear quickly.
+  // Network-first for navigation/index.html so new versions appear quickly.
   if (event.request.mode === 'navigate' || url.pathname.endsWith('/index.html')) {
     event.respondWith(
       fetch(event.request)
@@ -51,7 +51,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for static local assets.
+  // Cache-first for local static files.
   event.respondWith(
     caches.match(event.request).then(cached =>
       cached || fetch(event.request).then(response => {
