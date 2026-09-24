@@ -893,7 +893,7 @@
 
 
 <style id="v37-weather-map">
-/* V41: full-size Windy iframe scaled into the existing mini-map viewport. */
+/* V43: Windy cloud layer; local iOS previews may restrict third-party iframes. */
 .map-mini{position:absolute;right:1.7vw;top:1.8vh;width:250px;height:152px;z-index:12;padding:0;border:1px solid #6c8296;border-radius:9px;background:#142332;overflow:hidden;cursor:pointer;box-shadow:0 2px 9px #0009;transition:transform .18s,border-color .18s;}
 .map-mini:hover,.map-mini:focus-visible{transform:scale(1.12);border-color:#35a4ff;outline:2px solid #35a4ff;}
 .map-mini iframe{display:block;position:absolute;left:0;top:0;width:900px;height:550px;border:0;pointer-events:none;transform-origin:top left;transform:scale(0.2777);}
@@ -907,8 +907,6 @@
  .map-fallback{background:#111c28;color:#fff;font:700 18px Arial,sans-serif;text-align:center;padding:9px}.map-fallback a{color:#8bd1ff}.map-overlay iframe{min-height:0}
 @media (orientation:portrait) and (max-width:900px){.map-fallback{font-size:27px;padding:15px}}
 </style>
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#000000">
 </head>
 <body>
   <div class="tv">
@@ -916,11 +914,11 @@
 
     <button id="mapMini" class="map-mini" type="button" aria-label="Wetterkarte vergrößern" title="Wetterkarte vergrößern">
       <iframe id="mapMiniFrame" title="Kleine Windy-Wetterkarte" loading="eager" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" aria-hidden="true"></iframe>
-      <span class="map-mini-label">🌍 Wetterkarte</span>
+      <span class="map-mini-label">☁️ Wolkenkarte</span>
     </button>
     <div id="mapOverlay" class="map-overlay" role="dialog" aria-modal="true" aria-label="Interaktive Weltwetterkarte" hidden>
-      <div class="map-overlay-header"><span>🌍 Weltwetterkarte · Windy</span><button id="mapClose" class="map-close" type="button" aria-label="Wetterkarte verkleinern">✕ Schließen</button></div>
-      <iframe id="mapLargeFrame" title="Interaktive Windy-Wetterkarte" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="map-fallback">Falls die Karte hier grau bleibt: <a id="mapExternal" href="https://embed.windy.com/" target="_blank" rel="noopener noreferrer">Wetterkarte direkt öffnen ↗</a></div>
+      <div class="map-overlay-header"><span>🌍 Weltwetterkarte · Wolken</span><button id="mapClose" class="map-close" type="button" aria-label="Wetterkarte verkleinern">✕ Schließen</button></div>
+      <iframe id="mapLargeFrame" title="Interaktive Windy-Wetterkarte" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="map-fallback">Falls die lokale Einbettung grau bleibt: <a id="mapExternal" href="https://embed.windy.com/" target="_blank" rel="noopener noreferrer">Wetterkarte direkt öffnen ↗</a></div>
     </div>
     <div class="city-block"><div class="country-flag" id="countryFlag">🌐</div><div class="city-jp" id="locationMain">📍 Standort</div><div class="city-en" id="locationSub">Location</div></div>
     <section class="time-row">
@@ -1296,7 +1294,7 @@ document.getElementById("appleTouchIcon").href = WORLD_CLOCK_ICON;
   function mapUrl(zoom){
     const lat=Number.isFinite(CURRENT_LAT)?CURRENT_LAT:26.335;
     const lon=Number.isFinite(CURRENT_LON)?CURRENT_LON:127.806;
-    const p=new URLSearchParams({lat:String(lat),lon:String(lon),detailLat:String(lat),detailLon:String(lon),width:'900',height:'550',zoom:String(zoom),level:'surface',overlay:'temp',product:'ecmwf',menu:'',message:'',marker:'',calendar:'now',pressure:'',type:'map',location:'coordinates',detail:'',metricWind:'km/h',metricTemp:'°C'});
+    const p=new URLSearchParams({lat:String(lat),lon:String(lon),detailLat:String(lat),detailLon:String(lon),width:'900',height:'550',zoom:String(zoom),level:'surface',overlay:'clouds',product:'ecmwf',menu:'',message:'',marker:'',calendar:'now',pressure:'',type:'map',location:'coordinates',detail:'',metricWind:'km/h',metricTemp:'°C'});
     return 'https://embed.windy.com/embed2.html?'+p.toString();
   }
   smallFrame.src=mapUrl(7);
@@ -1328,6 +1326,5 @@ document.getElementById("appleTouchIcon").href = WORLD_CLOCK_ICON;
   // On a mouse, the small preview grows subtly on hover; click opens the interactive map.
 })();
 </script>
-<script>if ("serviceWorker" in navigator && location.protocol === "https:") { window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.warn)); }</script>
 </body>
 </html>
