@@ -925,10 +925,10 @@
 
     <button id="mapMini" class="map-mini" type="button" aria-label="Wetterkarte vergrößern" title="Wetterkarte vergrößern">
       <iframe id="mapMiniFrame" title="Kleine Windy-Wetterkarte" loading="eager" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" aria-hidden="true"></iframe>
-      <span class="map-mini-label">☁️ Wolkenkarte</span>
+      <span class="map-mini-label" id="mapMiniLabel">☁️ Wetterkarte</span>
     </button>
     <div id="mapOverlay" class="map-overlay" role="dialog" aria-modal="true" aria-label="Interaktive Weltwetterkarte" hidden>
-      <div class="map-overlay-header"><span>🌍 Weltwetterkarte · Wolken</span><button id="mapClose" class="map-close" type="button" aria-label="Wetterkarte verkleinern">✕ Schließen</button></div>
+      <div class="map-overlay-header"><span id="mapLargeLabel">🌍 Weltwetterkarte · Wolken</span><button id="mapClose" class="map-close" type="button" aria-label="Wetterkarte verkleinern">✕ Schließen</button></div>
       <iframe id="mapLargeFrame" title="Interaktive Windy-Wetterkarte" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="map-fallback">Falls die lokale Einbettung grau bleibt: <a id="mapExternal" href="https://embed.windy.com/" target="_blank" rel="noopener noreferrer">Wetterkarte direkt öffnen ↗</a></div>
     </div>
     <div class="city-block"><div class="country-flag" id="countryFlag">🌐</div><div class="city-jp" id="locationMain">📍 Standort</div><div class="city-en" id="locationSub">Location</div></div>
@@ -1293,6 +1293,27 @@ document.getElementById("appleTouchIcon").href = WORLD_CLOCK_ICON;
 /* V38: upper-right app logo removed to make room for the weather map. */
 </script>
 
+
+<script id="v45-map-language">
+(function(){
+  const translations={
+    de:{small:'Wetterkarte',large:'Weltwetterkarte · Wolken',open:'Wetterkarte vergrößern',close:'Schließen',shrink:'Wetterkarte verkleinern',fallback:'Falls die lokale Einbettung grau bleibt:',external:'Wetterkarte direkt öffnen ↗'},
+    ja:{small:'天気図',large:'世界の天気図 · 雲',open:'天気図を拡大',close:'閉じる',shrink:'天気図を縮小',fallback:'地図が表示されない場合：',external:'天気図を直接開く ↗'},
+    en:{small:'Weather Map',large:'World Weather Map · Clouds',open:'Enlarge weather map',close:'Close',shrink:'Minimize weather map',fallback:'If the embedded map stays gray:',external:'Open weather map directly ↗'},
+    fr:{small:'Carte météo',large:'Carte météo mondiale · Nuages',open:'Agrandir la carte météo',close:'Fermer',shrink:'Réduire la carte météo',fallback:'Si la carte intégrée reste grise :',external:'Ouvrir la carte météo ↗'}
+  };
+  const t=translations[UI_LANG]||translations.en;
+  document.getElementById('mapMiniLabel').textContent='☁️ '+t.small;
+  document.getElementById('mapLargeLabel').textContent='🌍 '+t.large;
+  const mini=document.getElementById('mapMini');
+  mini.setAttribute('aria-label',t.open);mini.title=t.open;
+  const close=document.getElementById('mapClose');
+  close.textContent='✕ '+t.close;close.setAttribute('aria-label',t.shrink);
+  const external=document.getElementById('mapExternal');external.textContent=t.external;
+  const fallback=external.parentElement;
+  fallback.firstChild.textContent=t.fallback+' ';
+})();
+</script>
 
 <script id="v37-weather-map-script">
 (function(){
