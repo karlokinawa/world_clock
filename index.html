@@ -918,6 +918,16 @@
  .map-mini .map-mini-label{font-size:64px;}
 }
 </style>
+
+<style id="v46-desktop-clock-map-fit">
+/* Desktop only: leave the iPhone portrait layout exactly as in V45. */
+@media (min-width:901px) {
+  .time { font-size:clamp(78px,14.2vh,166px) !important; transform:translateX(2%) !important; }
+  .map-mini { width:220px !important; height:134px !important; }
+  .map-mini iframe { transform:scale(0.2444) !important; }
+  .map-mini .map-mini-label { font-size:34px !important; }
+}
+</style>
 </head>
 <body>
   <div class="tv">
