@@ -907,6 +907,17 @@
  .map-fallback{background:#111c28;color:#fff;font:700 18px Arial,sans-serif;text-align:center;padding:9px}.map-fallback a{color:#8bd1ff}.map-overlay iframe{min-height:0}
 @media (orientation:portrait) and (max-width:900px){.map-fallback{font-size:27px;padding:15px}}
 </style>
+/* V44: etwas groessere Wolkenkarte und besser lesbare Beschriftung. */
+<style id="v44-cloud-map-size">
+.map-mini{width:290px;height:177px;}
+.map-mini iframe{transform:scale(0.3222);}
+.map-mini .map-mini-label{font-size:43px;}
+@media (orientation:portrait) and (max-width:900px){
+ .map-mini{width:390px;height:238px;}
+ .map-mini iframe{transform:scale(0.4333);}
+ .map-mini .map-mini-label{font-size:64px;}
+}
+</style>
 </head>
 <body>
   <div class="tv">
