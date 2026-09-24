@@ -1,4 +1,4 @@
-const CACHE = 'world-clock-v36-pwa-v8';
+const CACHE = 'world-clock-v42-pwa-v9';
 
 const APP_SHELL = [
   './',
@@ -27,6 +27,9 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+
+  // Never intercept cross-origin content, including Windy and live weather APIs.
+  if (url.origin !== self.location.origin) return;
 
   // Live location and weather data must always come from the network.
   if (
